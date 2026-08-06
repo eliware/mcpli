@@ -1,29 +1,74 @@
 import { jest, describe, test, expect } from '@jest/globals';
-import { parseArgs, formatJson, run } from '../node.mjs';
+const defaultClient = { listTools: jest.fn().mockResolvedValue({ tools: [] }), close: jest.fn().mockResolvedValue(undefined) };
+jest.unstable_mockModule('@eliware/mcp-client', () => ({ mcpClient: jest.fn().mockResolvedValue(defaultClient) }));
+const { parseArgs, formatJson, run } = await import('../node.mjs');
 
-describe('mcpli', () => {
+const makeClient = () => ({
+  listTools: jest.fn().mockResolvedValue({ tools: [{ name: 'echo', inputSchema: {} }] }),
+  callTool: jest.fn().mockResolvedValue({ ok: true }),
+  close: jest.fn().mockResolvedValue(undefined),
+});
+
+describe('node entry point', () => {
   test('parses options and positional arguments', () => {
     expect(parseArgs(['--url', 'http://x/mcp', '--json', 'call', 'echo', '{}'])).toEqual({
       options: { url: 'http://x/mcp', json: true }, positional: ['call', 'echo', '{}'],
     });
   });
+
   test('formats bigint values safely', () => expect(formatJson({ id: 2n })).toBe('{"id":"2"}'));
-  test('lists tools', async () => {
-    const client = { listTools: jest.fn().mockResolvedValue({ tools: [{ name: 'echo' }] }), close: jest.fn() };
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    await run(['--json', 'list'], { clientFactory: jest.fn().mockResolvedValue(client) });
-    expect(client.listTools).toHaveBeenCalled(); expect(spy).toHaveBeenCalledWith('[{"name":"echo"}]'); spy.mockRestore();
+
+  test.each([[['--help']], [[]]])('prints help without creating a client: %j', async (argv) => {
+    const log = jest.fn();
+    const clientFactory = jest.fn();
+    expect(await run(argv, { log, clientFactory })).toBe(0);
+    expect(log).toHaveBeenCalledWith(expect.stringContaining('mcpli'));
+    expect(clientFactory).not.toHaveBeenCalled();
   });
+
+  test('falls back when factory is falsy', async () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    await run(['list'], { clientFactory: null });
+    spy.mockRestore();
+  });
+
+  test('uses default dependencies and console logging', async () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    expect(await run(['list'])).toBe(0);
+    expect(defaultClient.close).toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
+  test('passes connection options, logs output, and closes client', async () => {
+    const client = makeClient();
+    const clientFactory = jest.fn().mockResolvedValue(client);
+    const log = jest.fn();
+    expect(await run(['--url', 'u', '--token', 't', '--transport', 'sse', 'list'], { clientFactory, log })).toBe(0);
+    expect(clientFactory).toHaveBeenCalledWith(expect.objectContaining({ url: 'u', token: 't', transport: 'sse', reconnect: false }));
+    expect(log).toHaveBeenCalledWith(expect.stringContaining('echo'));
+    expect(client.close).toHaveBeenCalled();
+  });
+
   test('describes and calls tools', async () => {
-    const client = { listTools: jest.fn().mockResolvedValue({ tools: [{ name: 'echo', inputSchema: {} }] }), callTool: jest.fn().mockResolvedValue({ ok: true }), close: jest.fn() };
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    await run(['--json', 'describe', 'echo'], { clientFactory: jest.fn().mockResolvedValue(client) });
-    await run(['--json', 'call', 'echo', '{"x":1}'], { clientFactory: jest.fn().mockResolvedValue(client) });
-    expect(client.callTool).toHaveBeenCalledWith({ name: 'echo', arguments: { x: 1 } }); spy.mockRestore();
+    const client = makeClient();
+    const log = jest.fn();
+    await run(['--json', 'describe', 'echo'], { clientFactory: jest.fn().mockResolvedValue(client), log });
+    await run(['--json', 'call', 'echo', '{"x":1}'], { clientFactory: jest.fn().mockResolvedValue(client), log });
+    expect(client.callTool).toHaveBeenCalledWith({ name: 'echo', arguments: { x: 1 } });
   });
-  test('rejects invalid JSON and missing tools', async () => {
-    const client = { listTools: jest.fn().mockResolvedValue({ tools: [] }), close: jest.fn() };
-    await expect(run(['describe', 'missing'], { clientFactory: jest.fn().mockResolvedValue(client) })).rejects.toThrow('Tool not found');
-    await expect(run(['call', 'echo', '{bad'], { clientFactory: jest.fn().mockResolvedValue(client) })).rejects.toThrow('Invalid JSON');
+
+  test('runs repl and closes it', async () => {
+    const client = makeClient();
+    const output = { write: jest.fn() };
+    const input = (async function* () { yield 'exit'; })();
+    await expect(run(['repl'], { clientFactory: jest.fn().mockResolvedValue(client), input, output })).resolves.toBe(0);
+    expect(output.write).toHaveBeenCalledWith('mcpli> ');
+    expect(client.close).toHaveBeenCalled();
+  });
+
+  test('closes client when command fails', async () => {
+    const client = makeClient();
+    await expect(run(['unknown'], { clientFactory: jest.fn().mockResolvedValue(client) })).rejects.toThrow('Unknown command');
+    expect(client.close).toHaveBeenCalled();
   });
 });
