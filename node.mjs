@@ -13,13 +13,15 @@ export async function run(argv, deps = {}) {
     (deps.log || console.log)(HELP);
     return 0;
   }
-  /* istanbul ignore next -- client factory fallback is supplied by the CLI runtime. */
-  const client = await (deps.clientFactory || mcpClient)({
+  const factory = deps.clientFactory || mcpClient;
+  const client = await factory({
     url: options.url,
     token: options.token,
     transport: options.transport,
     reconnect: false,
-    log: { debug: () => {}, warn: () => {}, error: () => {} },
+    log: options.debug
+      ? { debug: (...args) => console.error('[mcp:debug]', ...args), warn: (...args) => console.error('[mcp:warn]', ...args), error: (...args) => console.error('[mcp:error]', ...args) }
+      : { debug: () => {}, warn: () => {}, error: () => {} },
   });
   try {
     const [command, name, rawArguments] = positional;
@@ -31,7 +33,7 @@ export async function run(argv, deps = {}) {
   }
 }
 
-/* istanbul ignore next -- exercised only when invoked as the CLI entry point. */
+/* istanbul ignore if -- exercised only when invoked as the CLI entry point. */
 if (import.meta.url === `file://${process.argv[1]}`) {
   run(process.argv.slice(2)).catch(error => { console.error(`mcpli: ${error.message}`); process.exitCode = 1; });
 }

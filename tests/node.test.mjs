@@ -36,6 +36,8 @@ describe('node entry point', () => {
   test('falls back when factory is falsy', async () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
     await run(['list'], { clientFactory: null });
+    const config = (await import('@eliware/mcp-client')).mcpClient.mock?.calls?.at(-1)?.[0];
+    config?.log?.debug?.(); config?.log?.warn?.(); config?.log?.error?.();
     spy.mockRestore();
   });
 
@@ -44,6 +46,17 @@ describe('node entry point', () => {
     expect(await run(['list'])).toBe(0);
     expect(defaultClient.close).toHaveBeenCalled();
     spy.mockRestore();
+  });
+
+  test('passes debug logger when requested', async () => {
+    const client = makeClient();
+    const clientFactory = jest.fn().mockResolvedValue(client);
+    await run(['--debug', 'list'], { clientFactory, log: jest.fn() });
+    const config = clientFactory.mock.calls[0][0];
+    expect(config.log.debug).toEqual(expect.any(Function));
+    expect(config.log.warn).toEqual(expect.any(Function));
+    expect(config.log.error).toEqual(expect.any(Function));
+    config.log.debug('debug'); config.log.warn('warn'); config.log.error('error');
   });
 
   test('passes connection options, logs output, and closes client', async () => {
