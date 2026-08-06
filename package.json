@@ -1,14 +1,16 @@
 {
   "name": "@eliware/mcpli",
   "version": "0.1.0",
-  "description": "A friendly command-line MCP client for agents and shell automation.",
+  "description": "A powerful command-line MCP client for agents, developers, and shell automation.",
   "type": "module",
   "bin": {
     "mcpli": "./node.mjs"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --runInBand",
-    "lint": "oxlint --ignore-pattern node_modules ."
+    "test": "npx --node-options=\"--experimental-vm-modules --no-warnings\" jest --detectOpenHandles --silent --coverage --runInBand",
+    "lint": "npx oxlint --ignore-pattern node_modules .",
+    "coverage": "npx --node-options=\"--experimental-vm-modules --no-warnings\" jest --coverage --detectOpenHandles --silent --runInBand",
+    "test:gaps": "npm test 2>&1 | grep \"|\" | grep -vF \"|     100 |      100 |     100 |     100 |\""
   },
   "dependencies": {
     "@eliware/mcp-client": "^1.1.2"
@@ -16,5 +18,30 @@
   "devDependencies": {
     "jest": "^30.4.2",
     "oxlint": "^1.77.0"
-  }
+  },
+  "keywords": [
+    "mcp",
+    "mcp-client",
+    "model-context-protocol",
+    "cli",
+    "command-line",
+    "agents",
+    "automation",
+    "nodejs",
+    "esm",
+    "streamable-http",
+    "sse",
+    "stdio",
+    "json"
+  ],
+  "author": "Eli Sterling, eliware.org <eli@eliware.org>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eliware/mcpli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eliware/mcpli/issues"
+  },
+  "homepage": "https://github.com/eliware/mcpli#readme"
 }
