@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { realpathSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { mcpClient } from '@eliware/mcp-client';
 import { HELP, parseArgs } from './src/args.mjs';
 import { executeCommand } from './src/commands.mjs';
@@ -34,6 +36,6 @@ export async function run(argv, deps = {}) {
 }
 
 /* istanbul ignore if -- exercised only when invoked as the CLI entry point. */
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   run(process.argv.slice(2)).catch(error => { console.error(`mcpli: ${error.message}`); process.exitCode = 1; });
 }
