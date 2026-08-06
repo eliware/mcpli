@@ -26,6 +26,13 @@ describe('node entry point', () => {
     expect(clientFactory).not.toHaveBeenCalled();
   });
 
+  test('uses console logging for help without a logger', async () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    await expect(run(['--help'])).resolves.toBe(0);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('mcpli'));
+    spy.mockRestore();
+  });
+
   test('falls back when factory is falsy', async () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
     await run(['list'], { clientFactory: null });
