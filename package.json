@@ -1,0 +1,20 @@
+{
+  "name": "@eliware/mcpli",
+  "version": "0.1.0",
+  "description": "A friendly command-line MCP client for agents and shell automation.",
+  "type": "module",
+  "bin": {
+    "mcpli": "./node.mjs"
+  },
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --runInBand",
+    "lint": "oxlint --ignore-pattern node_modules ."
+  },
+  "dependencies": {
+    "@eliware/mcp-client": "^1.1.2"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "oxlint": "^1.77.0"
+  }
+}
