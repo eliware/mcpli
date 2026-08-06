@@ -1,0 +1,27 @@
+npm notice run @eliware/mcpli@1.0.0 test
+npm notice run npx --node-options="--experimental-vm-modules --no-warnings" jest --detectOpenHandles --silent --coverage --runInBand
+npm notice run @eliware/mcpli@1.0.0 npx
+npm notice run 'jest' --detectOpenHandles --silent --coverage --runInBand
+PASS tests/node.test.mjs
+PASS tests/repl.test.mjs
+PASS tests/commands.test.mjs
+mcpli> mcpli> []
+mcpli> PASS tests/args.test.mjs
+PASS tests/output.test.mjs
+---------------|---------|----------|---------|---------|-------------------
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------|---------|----------|---------|---------|-------------------
+All files      |     100 |      100 |     100 |     100 |                   
+ mcpli         |     100 |      100 |     100 |     100 |                   
+  node.mjs     |     100 |      100 |     100 |     100 |                   
+ mcpli/src     |     100 |      100 |     100 |     100 |                   
+  args.mjs     |     100 |      100 |     100 |     100 |                   
+  commands.mjs |     100 |      100 |     100 |     100 |                   
+  output.mjs   |     100 |      100 |     100 |     100 |                   
+  repl.mjs     |     100 |      100 |     100 |     100 |                   
+---------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 5 passed, 5 total
+Tests:       34 passed, 34 total
+Snapshots:   0 total
+Time:        0.496 s, estimated 1 s
