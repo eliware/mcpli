@@ -18,7 +18,7 @@ describe('node entry point', () => {
 
   test('formats bigint values safely', () => expect(formatJson({ id: 2n })).toBe('{"id":"2"}'));
 
-  test.each([[['--help']], [[]]])('prints help without creating a client: %j', async (argv) => {
+  test.each([[['--help']], [['--help', 'list']], [[]]])('prints help without creating a client: %j', async (argv) => {
     const log = jest.fn();
     const clientFactory = jest.fn();
     expect(await run(argv, { log, clientFactory })).toBe(0);
