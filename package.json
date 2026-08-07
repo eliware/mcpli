@@ -1,6 +1,6 @@
 {
     "name": "@eliware/mcpli",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A powerful command-line MCP client for agents, developers, and shell automation.",
     "type": "module",
     "bin": {
