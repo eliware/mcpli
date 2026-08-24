@@ -6,4 +6,3 @@ coverage/
 .agentx*
 .DS_Store
 
-.jest.result
