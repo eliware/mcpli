@@ -2,54 +2,52 @@
 
 ## Project
 
-Build mcpli with Node.js 26 and native ESM. The CLI connects to Model Context Protocol servers.
+Use Node.js 26 or later with native ESM. Build mcpli as an MCP command-line client.
 
 ## Scope and boundaries
 
-This repository owns the mcpli command-line client. It does not own MCP servers or their tools.
-The CLI lists tools, describes tool schemas, calls tools, and provides a REPL.
+This repository owns mcpli. The CLI lists tools, describes tools, calls tools, and runs a REPL.
+MCP servers own their tools and server data.
 
 ## Layout
 
-Keep implementation modules under `src/`. Keep the launcher under `bin/` and tests under `tests/`.
-Keep user documentation under `docs/` and repository specifications under `specs/`.
+Keep implementation modules in `src/`. Keep the CLI launcher in `bin/` and tests in `tests/`.
+Keep end-user documents in `docs/` and specifications in `specs/`.
 
 ## Development
 
-Give each source and test module one clear purpose. Keep one matching test for each source module.
-Use `@eliware/mcp-client` for MCP transport and client work.
+Give each source and test module one purpose. Keep one matching test for each source module.
+Use `@eliware/mcp-client` for MCP client work.
 
 ## Validation
 
-Use Node.js 26 or later and native ESM. Run `npm test` for aggregate validation.
-Run `npm run lint` for lint checks. Run `npm run audit` for dependency checks.
-Run `npm run format` to format files. Run `npm run format:check` to check file format.
-Run `npm run pack` before publication review.
+Run `npm test` for aggregate validation. Run `npm run lint` for lint checks.
+Run `npm run audit` for audit checks. Run `npm run format` to format files.
+Run `npm run format:check` to check files. Run `npm run pack` before publication review.
 
 ## Security
 
 Keep tokens and credentials out of source files, logs, and test output.
-Pass credentials with `MCP_TOKEN` or `--token`.
+Send credentials only to the configured MCP server.
 
 ## Changes
 
-Keep user documentation and release notes current. Follow shared conventions and Eliware Operations rules.
+Keep user documents and release notes current. Follow the shared conventions and release rules.
 
 ## Application
 
-The `mcpli` executable runs `bin/mcpli.mjs`. The CLI runs in a local terminal or in CI.
-The CLI does not change MCP server state except when a user calls a tool that changes state.
-The CLI accepts `MCP_URL` and `MCP_TOKEN` through `@eliware/mcp-client` defaults.
-The CLI supports `--url`, `--token`, and `--transport` options.
+Run `bin/mcpli.mjs` through the `mcpli` command. The CLI reads `MCP_URL`, `MCP_PORT`, and `MCP_TOKEN`.
+The URL defaults to `http://localhost:1234/mcp`. The port defaults to `1234`.
+Use `--url`, `--token`, and `--transport` to set client options.
+The CLI closes the client after each command. It does not retry after a connection failure.
 
 ## CLI
 
-Use `mcpli --help` to read usage. Use `mcpli --version` to read the package version.
-Use `list`, `describe <tool>`, `call <tool> [json-arguments]`, or `repl`.
-Use `--json` for machine-readable output and `--pretty` for indented JSON.
-Use `--debug` to write client logs to standard error.
+Use `mcpli --help` for usage. Use `mcpli --version` for the package version.
+Run `list`, `describe <tool>`, `call <tool> [json-arguments]`, or `repl`.
+Use `--json`, `--pretty`, or `--debug` to set output behavior.
 
 ## npm publication
 
-The public package is `@eliware/mcpli`. `package.json.version` sets its version.
-Run `npm test` and review the package before publication. Publish only through an approved release.
+The public package is `@eliware/mcpli`. The package version is in `package.json`.
+Run package validation before publication. Follow the Eliware Operations approval process.

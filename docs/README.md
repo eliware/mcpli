@@ -1,4 +1,5 @@
 # Documentation
 
-The root README describes setup, commands, configuration, and operations.
-The specifications index lists repository rules.
+- [User guide](user-guide.md)
+- [Command guide](commands.md)
+- [Troubleshooting guide](troubleshooting.md)

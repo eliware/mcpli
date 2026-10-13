@@ -24,87 +24,60 @@ A powerful command-line MCP client for agents, developers, and shell automation.
 
 ## Features
 
-- List tools that an MCP server exposes.
-- Read a tool name and input schema.
-- Call a tool with JSON arguments.
-- Use an interactive REPL.
-- Connect with HTTP, SSE, or stdio transport.
+The CLI has `list`, `describe`, `call`, and `repl` commands.
+Read the [documentation index](docs/README.md).
 
 ## Requirements
 
-Use Node.js 26 or later. Use an MCP server that supports a transport supported by `@eliware/mcp-client`.
+Use Node.js 26 or later.
 
 ## Setup
 
-Install the package with npm:
+Install mcpli with npm:
 
 ```sh
 npm install --global @eliware/mcpli
 ```
 
-For local development, run `npm ci` in the repository.
-
 ## Usage
 
-Set `MCP_URL` and optional `MCP_TOKEN` values, or pass `--url` and `--token` options.
-Use `mcpli --help` to read every option. Read [release notes](RELEASE_NOTES.md) for changes.
+Set `MCP_URL` and optional `MCP_TOKEN` values. Use `--url` and `--token` for one command.
+Read the [user guide](docs/user-guide.md) and [release notes](RELEASE_NOTES.md).
 
 ```sh
 mcpli list
-mcpli describe task-search
 mcpli call task-search '{"includes":{"pending":true}}'
-mcpli --json list
-mcpli repl
 ```
-
-The default endpoint is `http://localhost:1234/mcp`. The default transport is selected by the client.
 
 ## Development
 
-Use `npm test` for validation. Read the [documentation index](docs/README.md) and [specification index](specs/README.md).
+Run `npm ci`. Then run `npm test`.
 
 ## Testing
 
-Run `npm test` to run convention checks, lint, format checks, package checks, and Jest tests.
-Run `npm run lint`, `npm run format:check`, or `npm run audit` for one check.
+Run `npm test` to check the repository.
 
 ## Troubleshooting
 
-Check the endpoint and transport when the CLI cannot connect. Use `--debug` to show client logs.
-Use valid JSON for tool arguments. The CLI prints an error and returns exit code 1 when a command fails.
+Read the [troubleshooting guide](docs/troubleshooting.md).
 
 ## Security
 
-Keep tokens private. Pass tokens through `MCP_TOKEN` or `--token`.
-The CLI sends credentials to the configured MCP server.
+Keep tokens private. Send credentials only to the MCP server that you select.
 
 ## Configuration
 
-| Setting       | Purpose                                   | Default                     |
-| ------------- | ----------------------------------------- | --------------------------- |
-| `MCP_URL`     | MCP server endpoint                       | `http://localhost:1234/mcp` |
-| `MCP_TOKEN`   | Bearer token                              | No token                    |
-| `--transport` | Transport type: `http`, `sse`, or `stdio` | Client default              |
-
-Command-line `--url` and `--token` values set the matching client options.
+Set `MCP_URL`, `MCP_PORT`, and `MCP_TOKEN`, or set `--url`, `--token`, and `--transport`.
+Read [configuration details](docs/user-guide.md#configuration).
 
 ## Operations
 
-The client closes its connection after each command. REPL mode closes when a user enters `exit` or `quit`.
-The CLI does not retry a connection after a failure.
+The client closes after each command. Read the [user guide](docs/user-guide.md) for connection details.
 
 ## Commands
 
-| Command                              | Action                      |
-| ------------------------------------ | --------------------------- |
-| `mcpli list`                         | List available tools.       |
-| `mcpli describe <tool>`              | Show a tool definition.     |
-| `mcpli call <tool> [json-arguments]` | Call a tool.                |
-| `mcpli repl`                         | Start the interactive REPL. |
-| `mcpli --help`                       | Show usage.                 |
-| `mcpli --version`                    | Show the package version.   |
-
-Use `--json` to emit JSON. Use `--pretty` to indent JSON output. Use `--debug` to show client logs.
+Use `list`, `describe <tool>`, `call <tool> [json-arguments]`, or `repl`.
+Read the [command guide](docs/commands.md) for options and results.
 
 ## Exit codes
 
