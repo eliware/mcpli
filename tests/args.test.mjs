@@ -36,8 +36,15 @@ describe("args", () => {
     });
   });
 
-  test("accepts missing values for valued options", () => {
-    expect(parseArgs(["--url"])).toEqual({ options: { url: undefined }, positional: [] });
+  test.each([[["--url"]], [["--token", "--debug"]], [["--transport", "-h"]]])(
+    "rejects missing values for valued options: %j",
+    (argv) => {
+      expect(() => parseArgs(argv)).toThrow(/requires a value/);
+    },
+  );
+
+  test("rejects an option as a valued option value", () => {
+    expect(() => parseArgs(["--url", "--token", "secret"])).toThrow("--url requires a value");
   });
 
   test("rejects unknown flags", () => {

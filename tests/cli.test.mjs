@@ -149,3 +149,14 @@ test("closes client when command fails", async () => {
   ).rejects.toThrow("Unknown command");
   expect(client.close).toHaveBeenCalled();
 });
+
+test.each([
+  [["list", "extra"], "Usage: mcpli list"],
+  [["describe"], "Usage: mcpli describe <tool>"],
+  [["call", "echo", "{}", "extra"], "Usage: mcpli call <tool> [json-arguments]"],
+  [["repl", "extra"], "Usage: mcpli repl"],
+])("rejects extra or missing command arguments: %j", async (argv, message) => {
+  const clientFactory = jest.fn();
+  await expect(run(argv, { clientFactory })).rejects.toThrow(message);
+  expect(clientFactory).not.toHaveBeenCalled();
+});

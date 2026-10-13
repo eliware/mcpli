@@ -20,6 +20,16 @@ export async function run(argv, deps = {}) {
     (deps.log || console.log)(HELP);
     return 0;
   }
+  const [command] = positional;
+  const commandUsage = {
+    list: { counts: [1], text: "mcpli list" },
+    describe: { counts: [2], text: "mcpli describe <tool>" },
+    call: { counts: [2, 3], text: "mcpli call <tool> [json-arguments]" },
+    repl: { counts: [1], text: "mcpli repl" },
+  }[command];
+  if (commandUsage && !commandUsage.counts.includes(positional.length)) {
+    throw new Error(`Usage: ${commandUsage.text}`);
+  }
   const factory = deps.clientFactory || mcpClient;
   const client = await factory({
     url: options.url,
