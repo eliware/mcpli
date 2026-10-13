@@ -1,0 +1,11 @@
+version: "12.0"
+description: Defines repository requirements for mcpli.
+directives:
+  - id: E-1240.0
+    dos:
+      - Use @eliware/mcp-client for MCP client connections.
+      - Keep command-line output suitable for people and shell tools.
+      - Close the MCP client after each command.
+    donts:
+      - Do not print tokens or credentials.
+      - Do not reconnect after a command fails.

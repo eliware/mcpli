@@ -1,42 +1,53 @@
-import { describe, test, expect } from '@jest/globals';
-import { parseArgs } from '../src/args.mjs';
+import { describe, test, expect } from "@jest/globals";
+import { parseArgs } from "../src/args.mjs";
 
-describe('args', () => {
-  test('parses help aliases and output flags', () => {
-    expect(parseArgs(['--help', '-h', '--json', '--pretty', 'list'])).toEqual({
+describe("args", () => {
+  test("parses help aliases and output flags", () => {
+    expect(parseArgs(["--help", "-h", "--json", "--pretty", "list"])).toEqual({
       options: { help: true, json: true, pretty: true },
-      positional: ['list'],
+      positional: ["list"],
     });
   });
 
-  test('parses valued options and positional arguments', () => {
-    expect(parseArgs([
-      '--url', 'https://example.test/mcp',
-      '--token', 'secret',
-      '--transport', 'sse',
-      'call', 'tool', '{}',
-    ])).toEqual({
+  test("parses the version option", () => {
+    expect(parseArgs(["--version"])).toEqual({ options: { version: true }, positional: [] });
+  });
+
+  test("parses valued options and positional arguments", () => {
+    expect(
+      parseArgs([
+        "--url",
+        "https://example.test/mcp",
+        "--token",
+        "secret",
+        "--transport",
+        "sse",
+        "call",
+        "tool",
+        "{}",
+      ]),
+    ).toEqual({
       options: {
-        url: 'https://example.test/mcp',
-        token: 'secret',
-        transport: 'sse',
+        url: "https://example.test/mcp",
+        token: "secret",
+        transport: "sse",
       },
-      positional: ['call', 'tool', '{}'],
+      positional: ["call", "tool", "{}"],
     });
   });
 
-  test('accepts missing values for valued options', () => {
-    expect(parseArgs(['--url'])).toEqual({ options: { url: undefined }, positional: [] });
+  test("accepts missing values for valued options", () => {
+    expect(parseArgs(["--url"])).toEqual({ options: { url: undefined }, positional: [] });
   });
 
-  test('rejects unknown flags', () => {
-    expect(() => parseArgs(['--bad'])).toThrow('Unknown option: --bad');
+  test("rejects unknown flags", () => {
+    expect(() => parseArgs(["--bad"])).toThrow("Unknown option: --bad");
   });
 
-  test('keeps non-option values', () => {
-    expect(parseArgs(['-h', 'first', 'second'])).toEqual({
+  test("keeps non-option values", () => {
+    expect(parseArgs(["-h", "first", "second"])).toEqual({
       options: { help: true },
-      positional: ['first', 'second'],
+      positional: ["first", "second"],
     });
   });
 });

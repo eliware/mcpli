@@ -13,6 +13,7 @@ Options:
   --json                  Emit machine-readable JSON only
   --pretty                Pretty-print JSON output
   --debug                 Emit MCP client debug logs to stderr
+  --version               Show the package version
   --help                  Show this help
 `;
 
@@ -21,12 +22,13 @@ export function parseArgs(argv) {
   const positional = [];
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
-    if (arg === '--help' || arg === '-h') options.help = true;
-    else if (arg === '--json') options.json = true;
-    else if (arg === '--pretty') options.pretty = true;
-    else if (arg === '--debug') options.debug = true;
-    else if (['--url', '--token', '--transport'].includes(arg)) options[arg.slice(2)] = argv[++i];
-    else if (arg.startsWith('--')) throw new Error(`Unknown option: ${arg}`);
+    if (arg === "--help" || arg === "-h") options.help = true;
+    else if (arg === "--version") options.version = true;
+    else if (arg === "--json") options.json = true;
+    else if (arg === "--pretty") options.pretty = true;
+    else if (arg === "--debug") options.debug = true;
+    else if (["--url", "--token", "--transport"].includes(arg)) options[arg.slice(2)] = argv[++i];
+    else if (arg.startsWith("--")) throw new Error(`Unknown option: ${arg}`);
     else positional.push(arg);
   }
   return { options, positional };

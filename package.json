@@ -1,66 +1,110 @@
 {
-    "name": "@eliware/mcpli",
-    "version": "1.0.2",
-    "description": "A powerful command-line MCP client for agents, developers, and shell automation.",
-    "type": "module",
-    "bin": {
-        "mcpli": "./node.mjs"
-    },
-    "scripts": {
-        "test": "npx --node-options=\"--experimental-vm-modules --no-warnings\" jest --detectOpenHandles --silent --coverage --runInBand",
-        "lint": "npx oxlint --ignore-pattern node_modules .",
-        "coverage": "npx --node-options=\"--experimental-vm-modules --no-warnings\" jest --coverage --detectOpenHandles --silent --runInBand",
-        "test:gaps": "npm test 2>&1 | grep \"|\" | grep -vF \"|     100 |      100 |     100 |     100 |\""
-    },
-    "dependencies": {
-        "@eliware/mcp-client": "^1.1.3"
-    },
-    "devDependencies": {
-        "jest": "^30.4.2",
-        "oxlint": "^1.77.0"
-    },
-    "keywords": [
-        "mcp",
-        "mcp-client",
-        "model-context-protocol",
-        "cli",
-        "command-line",
-        "agents",
-        "automation",
-        "nodejs",
-        "esm",
-        "streamable-http",
-        "sse",
-        "stdio",
-        "json"
+  "name": "@eliware/mcpli",
+  "version": "12.0.0",
+  "type": "module",
+  "description": "A powerful command-line MCP client for agents, developers, and shell automation.",
+  "keywords": [
+    "mcp",
+    "mcp-client",
+    "model-context-protocol",
+    "cli",
+    "command-line",
+    "agents",
+    "automation",
+    "nodejs",
+    "esm",
+    "streamable-http",
+    "sse",
+    "stdio",
+    "json"
+  ],
+  "private": false,
+  "publishConfig": {
+    "provenance": true
+  },
+  "bin": {
+    "mcpli": "./bin/mcpli.mjs"
+  },
+  "files": [
+    "src/",
+    "docs/",
+    "README.md",
+    "AGENTS.md",
+    "LICENSE",
+    "RELEASE_NOTES.md",
+    "bin/",
+    "specs/"
+  ],
+  "scripts": {
+    "test": "eliware-test",
+    "lint": "eliware-test --lint",
+    "audit": "eliware-test --audit",
+    "format": "eliware-test --format",
+    "format:check": "eliware-test --format-check",
+    "pack": "eliware-test --pack"
+  },
+  "engines": {
+    "node": ">=26"
+  },
+  "dependencies": {
+    "@eliware/mcp-client": "^1.1.4"
+  },
+  "devDependencies": {
+    "@eliware/test": "^12.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.mjs"
     ],
-    "author": "Eli Sterling, eliware.org <eli@eliware.org>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/eliware/mcpli.git"
-    },
-    "bugs": {
-        "url": "https://github.com/eliware/mcpli/issues"
-    },
-    "homepage": "https://github.com/eliware/mcpli#readme",
-    "prettier": {
-      "printWidth": 100,
-      "tabWidth": 2,
-      "useTabs": false,
-      "semi": true,
-      "singleQuote": false,
-      "quoteProps": "as-needed",
-      "jsxSingleQuote": false,
-      "trailingComma": "all",
-      "bracketSpacing": true,
-      "bracketSameLine": false,
-      "arrowParens": "always",
-      "proseWrap": "preserve",
-      "endOfLine": "lf"
-    },
-    "eliware": {
-      "id": "E-1240",
-      "apply": ["general", "application", "cli", "npm-published"]
+    "collectCoverageFrom": [
+      "src/**/*.mjs"
+    ],
+    "coverageReporters": [
+      "text",
+      "json-summary"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
     }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "as-needed",
+    "jsxSingleQuote": false,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "proseWrap": "preserve",
+    "endOfLine": "lf"
+  },
+  "author": "Eliware <eliware@eliware.org>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eliware/mcpli.git"
+  },
+  "homepage": "https://github.com/eliware/mcpli#readme",
+  "bugs": {
+    "url": "https://github.com/eliware/mcpli/issues"
+  },
+  "eliware": {
+    "id": "E-1240",
+    "apply": [
+      "general",
+      "application",
+      "cli",
+      "npm-published"
+    ]
+  }
 }
