@@ -60,11 +60,13 @@ describe("repl", () => {
     const { output, text } = capture();
 
     await runRepl(client, {
-      input: Readable.from(["call echo\n", "list\n", "call echo {bad\n", "quit\n"]),
+      input: Readable.from(["call\n", "call echo\n", "list\n", "call echo {bad\n", "quit\n"]),
       output,
     });
 
     expect(client.callTool).toHaveBeenCalledWith({ name: "echo", arguments: {} });
+    expect(client.callTool).toHaveBeenCalledTimes(1);
+    expect(text()).toContain("Error: Usage: call <tool> [json]");
     expect(text()).toContain("Error: list failed");
     expect(text()).toContain("Error:");
   });

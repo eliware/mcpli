@@ -13,11 +13,12 @@ export async function runRepl(client, { input = process.stdin, output = process.
       const [command, name, ...rest] = text.split(/\s+/);
       if (command === "list")
         output.write(`${formatJson((await client.listTools()).tools || [], true)}\n`);
-      else if (command === "call")
+      else if (command === "call") {
+        if (!name) throw new Error("Usage: call <tool> [json]");
         output.write(
           `${formatJson(await client.callTool({ name, arguments: parseJson(rest.join(" ") || "{}") }), true)}\n`,
         );
-      else output.write("Commands: list, call <tool> <json>, exit\n");
+      } else output.write("Commands: list, call <tool> <json>, exit\n");
     } catch (error) {
       output.write(`Error: ${error.message}\n`);
     }
