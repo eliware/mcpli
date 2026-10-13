@@ -115,6 +115,33 @@ test("passes connection options, logs output, and closes client", async () => {
   expect(client.close).toHaveBeenCalled();
 });
 
+test.each([
+  ["https://example.test/mcp", "5000", "env-token", "https://example.test/mcp"],
+  ["", "5001", "env-token", "http://localhost:5001/mcp"],
+  ["", "", "env-token", "http://localhost:1234/mcp"],
+])("uses environment connection defaults", async (url, port, token, expectedUrl) => {
+  const prior = {
+    MCP_URL: process.env.MCP_URL,
+    MCP_PORT: process.env.MCP_PORT,
+    MCP_TOKEN: process.env.MCP_TOKEN,
+  };
+  process.env.MCP_URL = url;
+  process.env.MCP_PORT = port;
+  process.env.MCP_TOKEN = token;
+  try {
+    const clientFactory = jest.fn().mockResolvedValue(makeClient());
+    await run(["list"], { clientFactory, log: jest.fn() });
+    expect(clientFactory.mock.calls[0][0]).toEqual(
+      expect.objectContaining({ url: expectedUrl, token }),
+    );
+  } finally {
+    for (const [name, value] of Object.entries(prior)) {
+      if (value === undefined) delete process.env[name];
+      else process.env[name] = value;
+    }
+  }
+});
+
 test("describes and calls tools", async () => {
   const client = makeClient();
   const log = jest.fn();

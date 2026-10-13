@@ -32,8 +32,10 @@ export async function run(argv, deps = {}) {
   }
   const factory = deps.clientFactory || mcpClient;
   const client = await factory({
-    url: options.url,
-    token: options.token,
+    url:
+      options.url ??
+      (process.env.MCP_URL || `http://localhost:${process.env.MCP_PORT || 1234}/mcp`),
+    token: options.token ?? process.env.MCP_TOKEN,
     transport: options.transport,
     reconnect: false,
     log: options.debug
