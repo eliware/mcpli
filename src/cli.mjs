@@ -41,7 +41,7 @@ export async function run(argv, deps = {}) {
     log: options.debug
       ? {
           debug: (...args) => console.error("[mcp:debug]", ...args),
-          warn: (...args) => console.error("[mcp:warn]", ...args),
+          warn: (...args) => console.error("[mcp:notice]", ...args),
           error: (...args) => console.error("[mcp:error]", ...args),
         }
       : { debug: () => {}, warn: () => {}, error: () => {} },

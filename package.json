@@ -51,7 +51,7 @@
     "@eliware/mcp-client": "^12.0.0"
   },
   "devDependencies": {
-    "@eliware/test": "^12.0.0"
+    "@eliware/test": "^13.0.0"
   },
   "jest": {
     "testEnvironment": "node",
