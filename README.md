@@ -52,6 +52,7 @@ mcpli call task-search '{"includes":{"pending":true}}'
 ## Development
 
 Run `npm ci`. Then run `npm test`.
+Read the [repository specifications](specs/README.md).
 
 ## Testing
 

@@ -48,7 +48,7 @@ test("prints the package version without creating a client", async () => {
   const log = jest.fn();
   const clientFactory = jest.fn();
   expect(await run(["--version"], { log, clientFactory })).toBe(0);
-  expect(log).toHaveBeenCalledWith("12.0.0");
+  expect(log).toHaveBeenCalledWith("13.0.0");
   expect(clientFactory).not.toHaveBeenCalled();
 });
 

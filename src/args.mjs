@@ -1,21 +1,26 @@
-export const HELP = `mcpli — command-line MCP client
+const HELP_TEXT = [
+  "mcpli — command-line MCP client",
+  "",
+  "Usage:",
+  "  mcpli [options] list",
+  "  mcpli [options] describe <tool>",
+  "  mcpli [options] call <tool> [json-arguments]",
+  "  mcpli [options] repl",
+  "",
+  "Options:",
+  "  --url <url>             Set the MCP endpoint.",
+  "                          Default: MCP_URL or localhost:1234/mcp.",
+  "  --token <token>         Set the bearer token.",
+  "                          Default: MCP_TOKEN.",
+  "  --transport <type>      Select http, sse, or stdio.",
+  "  --json                  Print JSON on one line.",
+  "  --pretty                Indent JSON output.",
+  "  --debug                 Print MCP client logs to stderr.",
+  "  --version               Print the package version.",
+  "  --help                  Print this help.",
+];
 
-Usage:
-  mcpli [options] list
-  mcpli [options] describe <tool>
-  mcpli [options] call <tool> [json-arguments]
-  mcpli [options] repl
-
-Options:
-  --url <url>             MCP endpoint (default: MCP_URL or localhost:1234/mcp)
-  --token <token>         Bearer token (or MCP_TOKEN)
-  --transport <type>      http, sse, or stdio
-  --json                  Emit machine-readable JSON only
-  --pretty                Pretty-print JSON output
-  --debug                 Emit MCP client debug logs to stderr
-  --version               Show the package version
-  --help                  Show this help
-`;
+export const HELP = `${HELP_TEXT.join("\n")}\n`;
 
 export function parseArgs(argv) {
   const options = {};
