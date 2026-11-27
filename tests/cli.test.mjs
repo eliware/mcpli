@@ -6,7 +6,9 @@ const defaultClient = {
 jest.unstable_mockModule("@eliware/mcp-client", () => ({
   mcpClient: jest.fn().mockResolvedValue(defaultClient),
 }));
-const { parseArgs, formatJson, run } = await import("../src/cli.mjs");
+const run = (await import("../src/cli.mjs")).default;
+const parseArgs = (await import("../src/args.mjs")).default;
+const formatJson = (await import("../src/format-json.mjs")).default;
 
 async function silenceConsole(method, callback) {
   const original = console[method];
@@ -48,7 +50,7 @@ test("prints the package version without creating a client", async () => {
   const log = jest.fn();
   const clientFactory = jest.fn();
   expect(await run(["--version"], { log, clientFactory })).toBe(0);
-  expect(log).toHaveBeenCalledWith("13.0.0");
+  expect(log).toHaveBeenCalledWith("15.2.0");
   expect(clientFactory).not.toHaveBeenCalled();
 });
 

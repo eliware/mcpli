@@ -1,13 +1,33 @@
 import { readFileSync } from "node:fs";
 import { mcpClient } from "@eliware/mcp-client";
-import { HELP, parseArgs } from "./args.mjs";
-import { executeCommand } from "./commands.mjs";
-import { runRepl } from "./repl.mjs";
+import parseArgs from "./args.mjs";
+import executeCommand from "./commands.mjs";
+import runRepl from "./repl.mjs";
 
-export { HELP, parseArgs } from "./args.mjs";
-export { formatJson, parseJson } from "./output.mjs";
+const HELP_TEXT =
+  [
+    "mcpli — command-line MCP client",
+    "",
+    "Usage:",
+    "  mcpli [options] list",
+    "  mcpli [options] describe <tool>",
+    "  mcpli [options] call <tool> [json-arguments]",
+    "  mcpli [options] repl",
+    "",
+    "Options:",
+    "  --url <url>             Set the MCP endpoint.",
+    "                          Default: MCP_URL or localhost:1234/mcp.",
+    "  --token <token>         Set the bearer token.",
+    "                          Default: MCP_TOKEN.",
+    "  --transport <type>      Select http, sse, or stdio.",
+    "  --json                  Print JSON on one line.",
+    "  --pretty                Indent JSON output.",
+    "  --debug                 Print MCP client logs to stderr.",
+    "  --version               Print the package version.",
+    "  --help                  Print this help.",
+  ].join("\n") + "\n";
 
-export async function run(argv, deps = {}) {
+export default async function run(argv, deps = {}) {
   const { options, positional } = parseArgs(argv);
   if (options.version) {
     const packageJson = JSON.parse(
@@ -17,7 +37,7 @@ export async function run(argv, deps = {}) {
     return 0;
   }
   if (options.help || positional.length === 0) {
-    (deps.log || console.log)(HELP);
+    (deps.log || console.log)(HELP_TEXT);
     return 0;
   }
   const [command] = positional;

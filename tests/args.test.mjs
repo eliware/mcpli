@@ -1,5 +1,5 @@
 import { describe, test, expect } from "@jest/globals";
-import { parseArgs } from "../src/args.mjs";
+import parseArgs from "../src/args.mjs";
 
 describe("args", () => {
   test("parses help aliases and output flags", () => {

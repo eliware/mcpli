@@ -1,6 +1,6 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import { Readable, PassThrough } from "node:stream";
-import { runRepl } from "../src/repl.mjs";
+import runRepl from "../src/repl.mjs";
 
 function capture() {
   const output = new PassThrough();

@@ -1,6 +1,7 @@
-import { parseJson, printValue } from "./output.mjs";
+import parseJson from "./parse-json.mjs";
+import printValue from "./print-value.mjs";
 
-export async function executeCommand(
+export default async function executeCommand(
   client,
   command,
   name,

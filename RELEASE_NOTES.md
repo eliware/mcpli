@@ -1,44 +1,53 @@
 # Release Notes
 
-## 13.0.0 — 2026-10-17
+## 15.2.0 — 2026-11-26
 
 ### Added
 
-The CLI prints its version when you run `mcpli --version`.
-The repository includes guides for setup, commands, configuration, and troubleshooting.
-The repository includes an MIT license, Eliware v13 specifications, and shared validation.
-Tests cover CLI parsing, commands, output, and REPL behavior.
-CI tests Node.js 26 on pushes and pull requests.
-
-The npm workflow checks the release tag and package version, then publishes with provenance.
-The Knit workflow deploys from `/eliware/mcpli` after a push.
+The README links to the repository specifications. The repository includes updated Eliware v13 guidance and specifications.
+The CI and npm workflows use current shared actions. The validation workflows fetch full Git history.
 
 ### Changed
 
-The package version is 13.0.0. The package requires Node.js 26 or later and uses native ESM.
-The CLI launcher runs from `bin/mcpli.mjs`. Source modules live in `src/`.
-The CLI uses `@eliware/mcp-client` 12.0.0 and `@eliware/test` 12.0.0.
-The CLI reads endpoint and token values from environment variables.
-
-A command-line value replaces its matching environment value.
-The package declares public npm access and provenance.
-The README and project guidance describe CLI use, token handling, operations, and release rules.
-The user guides tell users about setup, commands, configuration, output, and exit codes.
+The package uses @eliware/mcp-client 15.0.1 and @eliware/test 15.2.0. The package version is 15.2.0.
+The user guides and CLI argument handling follow current shared conventions.
+The npm workflow uses npm.yaml. Knit deployment pulls the repository before dependency installation and testing.
 
 ### Fixed
 
-The CLI rejects missing option values and values that begin with a `--` option.
-The CLI rejects command arguments that do not match the command syntax.
-The REPL reports an error when a `call` command has no tool name.
-The CLI reads connection settings from `MCP_URL`, `MCP_PORT`, and `MCP_TOKEN`.
+The CLI rejects malformed option values and command arguments before it connects to a server.
+The repository meets the package version, environment file, and module export conventions in @eliware/test 15.2.0.
+
+## 12.0.0 — 2026-10-13
+
+### Added
+
+The CLI prints its version with mcpli --version. The repository includes setup, command, configuration, and troubleshooting guides.
+
+CI tests Node.js 26 on pushes and pull requests. The publish workflow checks the release tag and package version, then publishes with provenance.
+
+Knit deploys from /eliware/mcpli after a push. The repository includes an MIT license, Eliware v12 specifications, and shared validation.
+Tests cover CLI parsing, commands, output, and REPL behavior.
+
+### Changed
+
+The package requires Node.js 26 or later and uses native ESM. The README and project guidance describe CLI use and release rules.
+
+The CLI launcher is bin/mcpli.mjs. Source modules live in src/. The CLI uses @eliware/mcp-client 12.0.0 and @eliware/test 12.0.0.
+
+The CLI reads endpoint and token values from environment variables. Command-line values replace matching environment values.
+The package sets public npm access and provenance. The user guide documents commands, configuration, output, and exit codes.
+
+### Fixed
+
+The CLI rejects option values that are missing or begin with a different option. It rejects invalid command arguments before it creates a client.
+The REPL reports an error when a call command has no tool name. The CLI reads MCP_URL, MCP_PORT, and MCP_TOKEN.
 
 ### Breaking changes
 
-The package requires Node.js 26 or later.
-The package no longer includes the root `node.mjs` launcher.
-The CLI rejects command arguments that do not match the command syntax.
+The package requires Node.js 26 or later. The root node.mjs launcher is removed.
+The CLI rejects more positional values after a command.
 
 ### Migration
 
-Use Node.js 26 or later.
-Change scripts that call `node.mjs` to call `mcpli` or `node bin/mcpli.mjs`.
+Install version 12.0.0 and use Node.js 26 or later. Replace scripts that call node.mjs with mcpli or node bin/mcpli.mjs.

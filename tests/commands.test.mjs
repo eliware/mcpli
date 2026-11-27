@@ -1,5 +1,5 @@
 import { describe, test, expect, jest } from "@jest/globals";
-import { executeCommand } from "../src/commands.mjs";
+import executeCommand from "../src/commands.mjs";
 
 async function silenceConsole(callback) {
   const original = console.log;

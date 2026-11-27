@@ -1,6 +1,6 @@
 {
   "name": "@eliware/mcpli",
-  "version": "13.0.0",
+  "version": "15.2.0",
   "type": "module",
   "description": "A powerful command-line MCP client for agents, developers, and shell automation.",
   "keywords": [
@@ -48,10 +48,10 @@
     "node": ">=26"
   },
   "dependencies": {
-    "@eliware/mcp-client": "^12.0.0"
+    "@eliware/mcp-client": "^15.0.1"
   },
   "devDependencies": {
-    "@eliware/test": "^13.0.0"
+    "@eliware/test": "^15.2.0"
   },
   "jest": {
     "testEnvironment": "node",

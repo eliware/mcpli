@@ -1,6 +1,10 @@
-import { formatJson, parseJson } from "./output.mjs";
+import formatJson from "./format-json.mjs";
+import parseJson from "./parse-json.mjs";
 
-export async function runRepl(client, { input = process.stdin, output = process.stdout } = {}) {
+export default async function runRepl(
+  client,
+  { input = process.stdin, output = process.stdout } = {},
+) {
   output.write("mcpli> ");
   for await (const line of input) {
     const text = line.trim();

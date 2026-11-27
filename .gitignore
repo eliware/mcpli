@@ -6,9 +6,9 @@ build/
 generated/
 artifacts/
 test-results/
-.env
 .env*
-!.env*.example
+!.env.example
+!**/.env.example
 .agentx*
 .DS_Store
 Thumbs.db
