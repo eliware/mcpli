@@ -37,16 +37,22 @@ test("parses options and positional arguments", () => {
 
 test("formats bigint values safely", () => expect(formatJson({ id: 2n })).toBe('{"id":"2"}'));
 
-test.each([[["--help"]], [["--help", "list"]], [[]]])(
-  "prints help without creating a client: %j",
-  async (argv) => {
-    const log = jest.fn();
-    const clientFactory = jest.fn();
-    expect(await run(argv, { log, clientFactory })).toBe(0);
-    expect(log).toHaveBeenCalledWith(expect.stringContaining("mcpli"));
-    expect(clientFactory).not.toHaveBeenCalled();
-  },
-);
+test.each([[["--help"]], [[]]])("prints help without creating a client: %j", async (argv) => {
+  const log = jest.fn();
+  const clientFactory = jest.fn();
+  expect(await run(argv, { log, clientFactory })).toBe(0);
+  expect(log).toHaveBeenCalledWith(expect.stringContaining("mcpli"));
+  expect(clientFactory).not.toHaveBeenCalled();
+});
+
+test.each([
+  [["--help", "list"], "--help cannot be combined with a command"],
+  [["--version", "list"], "--version cannot be combined with a command"],
+])("rejects informational options with commands: %j", async (argv, message) => {
+  const clientFactory = jest.fn();
+  await expect(run(argv, { clientFactory })).rejects.toThrow(message);
+  expect(clientFactory).not.toHaveBeenCalled();
+});
 
 test("prints the package version without creating a client", async () => {
   const log = jest.fn();
@@ -56,17 +62,11 @@ test("prints the package version without creating a client", async () => {
   expect(clientFactory).not.toHaveBeenCalled();
 });
 
-test("uses console logging for the package version", async () => {
-  await silenceConsole("log", async () => {
-    await expect(run(["--version"])).resolves.toBe(0);
-  });
-});
+test("uses console logging for the package version", () =>
+  silenceConsole("log", () => expect(run(["--version"])).resolves.toBe(0)));
 
-test("uses console logging for help without a logger", async () => {
-  await silenceConsole("log", async () => {
-    await expect(run(["--help"])).resolves.toBe(0);
-  });
-});
+test("uses console logging for help without a logger", () =>
+  silenceConsole("log", () => expect(run(["--help"])).resolves.toBe(0)));
 
 test("uses default dependencies and console logging", async () => {
   await silenceConsole("log", async () => {

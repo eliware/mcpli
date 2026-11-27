@@ -8,8 +8,8 @@ Use this command pattern:
 mcpli [options] <command> [arguments]
 ```
 
-Put options before or after command arguments.
-Use `mcpli --help` to show usage. Use `mcpli --version` to show the package version.
+Put command options before or after command arguments.
+Run `mcpli --help` or `mcpli --version` without a command.
 
 ## Global options
 

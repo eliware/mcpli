@@ -47,6 +47,12 @@ export default async function run(argv, deps = {}) {
   let signalHandlers;
   let client;
   try {
+    if (options.help && positional.length > 0) {
+      throw new Error("--help cannot be combined with a command");
+    }
+    if (options.version && positional.length > 0) {
+      throw new Error("--version cannot be combined with a command");
+    }
     if (options.version) {
       const packageJson = JSON.parse(
         readFileSync(new URL("../package.json", import.meta.url), "utf8"),
