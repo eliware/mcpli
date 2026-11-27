@@ -8,7 +8,7 @@ export default function parseArgs(argv) {
     else if (arg === "--json") options.json = true;
     else if (arg === "--pretty") options.pretty = true;
     else if (arg === "--debug") options.debug = true;
-    else if (["--url", "--token", "--transport"].includes(arg)) {
+    else if (["--url", "--token", "--transport", "--command", "--args"].includes(arg)) {
       const value = argv[i + 1];
       if (value === undefined || value === "-h" || value.startsWith("--")) {
         throw new Error(`${arg} requires a value`);

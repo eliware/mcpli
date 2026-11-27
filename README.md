@@ -68,7 +68,8 @@ Keep tokens private. Send credentials only to the MCP server that you select.
 
 ## Configuration
 
-Set `MCP_URL`, `MCP_PORT`, and `MCP_TOKEN`, or set `--url`, `--token`, and `--transport`.
+Set `MCP_URL`, `MCP_PORT`, and `MCP_TOKEN`, or use `--url`, `--token`, and `--transport`.
+For local servers, use `--transport stdio`, `--command`, and optional `--args`.
 Read [configuration details](docs/user-guide.md#configuration).
 
 ## Operations

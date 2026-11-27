@@ -16,10 +16,9 @@ Do not include the token in the URL.
 ## The server rejects the transport
 
 Use `http` for Streamable HTTP servers. This is the default.
-Use `--transport sse` only when the server provides legacy SSE.
 Use the endpoint path from the server operator.
-mcpli accepts `--transport stdio`, but it cannot pass a server command.
-The stdio transport cannot connect through mcpli because mcpli has no server-command option.
+Use `--transport stdio` with `--command` to connect to a local server.
+Pass server arguments as a JSON string array through `--args` or `MCP_ARGS`.
 
 ## The command rejects the input
 

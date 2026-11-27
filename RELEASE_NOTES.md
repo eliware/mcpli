@@ -4,19 +4,19 @@
 
 ### Added
 
-The README links to the repository specifications. The repository includes updated Eliware v13 guidance and specifications.
-The CI and npm workflows use current shared actions. The validation workflows fetch full Git history.
+The CLI connects to local MCP servers through stdio. Users can set the server command and JSON argument array.
+The repository documents shared logger, process error, and shutdown APIs from `@eliware/common`.
 
 ### Changed
 
-The package uses @eliware/mcp-client 15.0.1 and @eliware/test 15.2.0. The package version is 15.2.0.
-The user guides and CLI argument handling follow current shared conventions.
-The npm workflow uses npm.yaml. Knit deployment pulls the repository before dependency installation and testing.
+The package uses `@eliware/mcp-client` 15.0.1, `@eliware/common` 15.0.1, and `@eliware/test` 15.2.0.
+The CLI uses structured logs and shared process handlers. The CLI supports HTTP and stdio transports.
 
 ### Fixed
 
-The CLI rejects malformed option values and command arguments before it connects to a server.
-The repository meets the package version, environment file, and module export conventions in @eliware/test 15.2.0.
+The CLI rejects stdio connections without a server command or with invalid argument JSON.
+The CLI no longer accepts or documents the SSE transport.
+The REPL reads piped input as lines before it runs commands.
 
 ## 12.0.0 — 2026-10-13
 

@@ -13,19 +13,21 @@ Use `mcpli --help` to show usage. Use `mcpli --version` to show the package vers
 
 ## Global options
 
-| Option               | Purpose                             | Value                     |
-| -------------------- | ----------------------------------- | ------------------------- |
-| `--url <url>`        | Set the MCP endpoint                | A server URL              |
-| `--token <token>`    | Set the bearer token                | A server token            |
-| `--transport <type>` | Set the connection type             | `http`, `sse`, or `stdio` |
-| `--json`             | Print output as JSON                | None                      |
-| `--pretty`           | Indent JSON output                  | None                      |
-| `--debug`            | Print client logs to standard error | None                      |
-| `--version`          | Print the package version           | None                      |
-| `--help`, `-h`       | Print help                          | None                      |
+| Option                | Purpose                            | Value                 |
+| --------------------- | ---------------------------------- | --------------------- |
+| `--url <url>`         | Set the MCP endpoint               | A server URL          |
+| `--token <token>`     | Set the bearer token               | A server token        |
+| `--transport <type>`  | Set the connection type            | `http` or `stdio`     |
+| `--command <command>` | Set the local stdio server command | A command name        |
+| `--args <json-array>` | Set local command arguments        | JSON array of strings |
+| `--json`              | Print output as JSON               | None                  |
+| `--pretty`            | Indent JSON output                 | None                  |
+| `--debug`             | Print structured MCP logs          | None                  |
+| `--version`           | Print the package version          | None                  |
+| `--help`, `-h`        | Print help                         | None                  |
 
 The default transport is `http`. Read the [user guide](user-guide.md#configuration) for endpoint values.
-The `stdio` transport cannot connect because mcpli has no server-command option.
+Use `--command` and optional `--args` with the `stdio` transport.
 
 ## `list`
 

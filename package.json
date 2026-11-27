@@ -48,6 +48,7 @@
     "node": ">=26"
   },
   "dependencies": {
+    "@eliware/common": "^15.0.1",
     "@eliware/mcp-client": "^15.0.1"
   },
   "devDependencies": {

@@ -39,10 +39,8 @@ When `MCP_URL` is empty, mcpli uses `MCP_PORT` in the local URL.
 The default value for `MCP_PORT` is `1234`.
 
 The `http` transport is the default.
-Use `sse` for a server that provides legacy SSE.
 Use the endpoint path from the server operator.
 Streamable HTTP uses `/mcp` when the server defines that path.
-Legacy SSE uses `/sse` when the server defines that path.
 
 Set environment values in PowerShell:
 
@@ -93,24 +91,33 @@ The REPL does not provide `describe` or global output flags.
 By default, mcpli prints objects as indented JSON. It prints text results as text.
 Use `--json` to print the result as JSON on one line.
 Add `--pretty` to `--json` to indent that JSON.
-Use `--debug` to print MCP client logs to standard error.
+Use `--debug` to print structured MCP logs.
 
 Debug output can include server details. Keep this information private when it contains sensitive data.
 
 ## Configuration
 
-| Name                 | Purpose                          | Default                     |
-| -------------------- | -------------------------------- | --------------------------- |
-| `MCP_URL`            | MCP endpoint URL                 | `http://localhost:1234/mcp` |
-| `MCP_PORT`           | Local URL number                 | `1234`                      |
-| `MCP_TOKEN`          | Bearer token for authentication  | No token                    |
-| `--url <url>`        | Set the endpoint for one command | `MCP_URL` or default URL    |
-| `--token <token>`    | Set the token for one command    | `MCP_TOKEN` or no token     |
-| `--transport <type>` | Select `http`, `sse`, or `stdio` | `http`                      |
+| Name                  | Purpose                          | Default                     |
+| --------------------- | -------------------------------- | --------------------------- |
+| `MCP_URL`             | MCP endpoint URL                 | `http://localhost:1234/mcp` |
+| `MCP_PORT`            | Local URL number                 | `1234`                      |
+| `MCP_TOKEN`           | Bearer token for authentication  | No token                    |
+| `MCP_COMMAND`         | Local stdio server executable    | None                        |
+| `MCP_ARGS`            | JSON string array for the server | None                        |
+| `--url <url>`         | Set the endpoint for one command | `MCP_URL` or default URL    |
+| `--token <token>`     | Set the token for one command    | `MCP_TOKEN` or no token     |
+| `--transport <type>`  | Select `http` or `stdio`         | `http`                      |
+| `--command <command>` | Set the local stdio server       | None                        |
+| `--args <json-array>` | Set stdio command arguments      | None                        |
 
-The MCP client supports stdio when the caller gives it a server command.
-mcpli has no option for a server command.
-The stdio transport cannot connect through mcpli.
+Set `MCP_COMMAND` or `--command` to name the local server executable.
+Set `MCP_ARGS` or `--args` to pass a JSON array of command arguments.
+For example, run `mcpli --transport stdio --command node --args '["server.mjs"]' list`.
+Command-line values replace matching environment values.
+
+mcpli uses structured JSON logs for client, process error, and shutdown events.
+The JavaScript API accepts a logger through the `logger` option.
+Read [shared APIs](shared-apis.md) for logger, error-handler, and signal-handler details.
 
 ## Connection life cycle
 

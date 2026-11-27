@@ -43,6 +43,7 @@ The default URL is `http://localhost:1234/mcp`.
 The default value for `MCP_PORT` is `1234`.
 
 Use `--url`, `--token`, and `--transport` to set client options.
+Use `--command` and `--args` to start a local stdio server.
 The CLI closes the client after each command. It does not retry if a command fails.
 
 Run focused tests first during development.

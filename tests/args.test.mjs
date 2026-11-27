@@ -21,7 +21,11 @@ describe("args", () => {
         "--token",
         "secret",
         "--transport",
-        "sse",
+        "stdio",
+        "--command",
+        "node",
+        "--args",
+        '["server.mjs"]',
         "call",
         "tool",
         "{}",
@@ -30,7 +34,9 @@ describe("args", () => {
       options: {
         url: "https://example.test/mcp",
         token: "secret",
-        transport: "sse",
+        transport: "stdio",
+        command: "node",
+        args: '["server.mjs"]',
       },
       positional: ["call", "tool", "{}"],
     });
